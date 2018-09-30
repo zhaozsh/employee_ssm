@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Employee Management</title>
+	<link rel="stylesheet" type="text/css" href="jquery-easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="jquery-easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="jquery-easyui/demo.css">
+	<script type="text/javascript" src="jquery-easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery-easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="main-js.js"></script>
+</head>
+
+<body class="easyui-layout">
+	<div data-options="region:'north',border:false" style="height:75px;background:#B3DFDA;padding:10px">
+		<img src="default-img/logo.png" style="width:145px;height:55px;float:left">
+		<h2 style="font-size:28px;float:left">&ensp;&ensp;Employee Management</h2>
+		<div style="float: right;margin-right:15px;">
+			<div id="userName" style="float:left">欢迎用户：</div><a href="/user/logout">退出登陆</a>
+		</div>
+	</div>
+	<div data-options="region:'west',split:true,title:'Management'" style="width:150px;padding:10px;">Employees</div>
+	<div data-options="region:'south',border:false" style="height:39px;background:#A9FACD;padding:10px;">版权所有   https://github.com/zhaozsh</div>
+	<div data-options="region:'center'">
+		<table id="dg" title="Employee Information" class="easyui-datagrid" style="width:auto;  height: 675px" toolbar="#toolbar" pagination="true" pageSize="20" fitColumns="true" 
+			data-options="region:'center',striped:true,rownumbers:true,selectOnCheck:false,checkOnSelect:false,singleSelect:true,url:'emp/search',method:'get'">
+			<thead>
+				<tr>
+					<th data-options="field:'ck',checkbox:true"></th>
+					<th field="pid" hidden="true"></th>
+					<th field="name" width="50" >姓名</th>
+					<th field="sex" width="25" formatter="formatSex">性别</th>
+					<th field="birthday" width="50" formatter="formatDate">出生日期</th>
+					<th field="idcard" width="90" >身份证号</th>
+					<th field="phone" width="60" >手机</th>
+					<th field="address" width="80" >地址</th>
+					<th field="photo" width="30" formatter="showImg">证件照</th>
+				</tr>
+			</thead>
+		</table>
+		<div id="toolbar">
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="SearchEmployee()">查询</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addEmployee()">新增</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editEmployee()">修改</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-no" plain="true" onclick="delEmployee()">删除</a>
+		</div>
+	</div>
+	
+	<!-- 新增修改对话框 -->
+	<div id="dlg" class="easyui-dialog" style="width: 400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+		<form id="fm" method="post" novalidate enctype="multipart/form-data" style="margin: 0; padding: 20px 50px">
+			<h3>Employee Information</h3>
+			<div style="margin-bottom: 10px">
+				<input id="name" name="name" class="easyui-textbox" label="Name:"
+					required="true" validType="capitalAndChinese" style="width: 100%">
+			</div>
+			<div style="margin-bottom: 10px"> Sex:&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; 
+				<input id="sex1" name="sex" type="radio" value="1">男</input>
+				<input id="sex0" name="sex" type="radio" value="0">女</input>
+			</div>
+			<div style="margin-bottom: 10px">
+				<input id="birthday" name="birthday" class="easyui-datebox" label="Birthday:" required="true" 
+					editable="false" data-options="formatter:myformatter,parser:myparser" style="width: 100%">
+			</div>
+			<div style="margin-bottom: 10px">
+				<input id="idcard" name="idcard" class="easyui-textbox" label="Idcard:" required="true" validType="idcard" style="width: 100%">
+			</div>
+			<div style="margin-bottom: 10px">
+				<input id="phone" name="phone" class="easyui-textbox" label="Phone:" required="true" validType="phoneAndMobile" style="width: 100%">
+			</div>
+			<div style="margin-bottom: 10px">
+				<input id="address" name="address" class="easyui-textbox" label="Address:" style="width: 100%">
+			</div>
+			<div style="margin-bottom: 10px">
+				<input id="photo" name="file" class="f1 easyui-filebox" label="Photo:" style="width: 100%">
+			</div>
+		</form>
+	</div>
+</body>
+</html>

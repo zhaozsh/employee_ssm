@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.emp.dao.EmployeeDao" >
+    <select id="getEmployees" resultType="Employee">
+    	SELECT p_employee_id pid,name,sex,birthday,idcard,phone,address,photo FROM t_employee WHERE active=1
+    </select>
+    <update id="deleteEmployee" parameterType="String">
+    	UPDATE t_employee SET active=0 WHERE p_employee_id = #{id}
+   	</update>
+	<insert id="addEmployee" parameterType="Employee">  
+        INSERT INTO t_employee VALUES(null, #{name}, #{sex}, #{birthday}, #{idcard}, #{phone}, #{address}, #{photo},1)
+	</insert> 
+	<update id="editEmployee" parameterType="Employee">
+    	UPDATE t_employee SET name=#{name}, sex=#{sex}, birthday=#{birthday}, phone=#{phone}, address=#{address}, photo=#{photo} WHERE p_employee_id = #{pid}
+   	</update>
+</mapper>
