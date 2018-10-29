@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.emp.dao.EmployeeDao" >
-    <select id="getEmployees" resultType="Employee">
+    <select id="getEmployees" resultType="Employee" parameterType="Map">
     	SELECT p_employee_id pid,name,sex,birthday,idcard,phone,address,photo FROM t_employee WHERE active=1
+    	<if test="name!=null">
+    		and name like CONCAT(#{name}, '%')
+    	</if>
+    	<if test="sex!=null and '' != sex">
+    		and sex = #{sex}
+    	</if>
+    	<if test="1 == 1">
+    		and 1=1
+    	</if>
+    	order by pid asc limit #{from},#{rows};
+    </select>
+    <select id="getTotal" resultType="int" parameterType="Map">
+    	SELECT count(p_employee_id) FROM t_employee WHERE active=1
+    	<if test="name!=null">
+    		and name like CONCAT(#{name}, '%')
+    	</if>
+    	<if test="sex!=null and '' != sex">
+    		and sex = #{sex}
+    	</if>
+    	<if test="1 == 1">
+    		and 1=1
+    	</if>
     </select>
     <update id="deleteEmployee" parameterType="String">
     	UPDATE t_employee SET active=0 WHERE p_employee_id = #{id}

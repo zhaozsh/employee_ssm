@@ -1,6 +1,13 @@
 $(function() {
 	// 获取当前已登陆用户并显示用户名
 	$('#userName').append(getUserName() + "，"); 
+	
+	// 浏览器调整大小时重新加载页面
+	$(window).resize(function () 
+	{
+		setTimeout("location.reload();",1); 
+	});
+	
 	/*
 	 * 正则表达式验证输入信息
 	 */
@@ -147,19 +154,20 @@ function saveEmployee(){
 }
 
 function SearchEmployee(){
-//	type = 'search';	
-//	$('#dg').datagrid({
-//		url: "EmployeeServlet?type=search",
-//	});
 	
 //	在datagrid已经设置了获取Employee信息的url，这里直接刷新表格即可
-	$("#dg").datagrid("reload");
+//	$("#dg").datagrid("reload");
+	var EmpName = $("#EmpName").val();
+	var EmpSex = $("#EmpSex").val();
+    $('#dg').datagrid('load', {
+        name: EmpName,
+        sex: EmpSex
+    });
 }
 
 function delEmployee(){
     var rows = $('#dg').datagrid('getChecked');
     var length = rows.length;
-    var Redata;
     if(length > 0){		
         $.messager.confirm('提示信息','确认删除已勾选的员工信息?',function(r){
             if (r){
@@ -168,21 +176,17 @@ function delEmployee(){
             	        type: "POST",
             	        url: "emp/delete",
             	        data: {"pid": rows[i].pid},
-            	        dataType: "text",
-            	        success: function(data){
-            	        	Redata = data;
-            	        	$("#dg").datagrid("reload");
+            	        dataType: "text"
+            	    /*	success: function(data){
+            	        	$.messager.alert('提示信息','删除成功','info');
             	        },
             	        error: function(){
             	        	$.messager.alert('提示信息','Error!','error');
-            	        }
+            	        }*/
                 	}); 
             	}
-            	if(Redata=='success'){
-					$.messager.alert('提示信息','删除成功','info');
-				}else{
-					$.messager.alert('提示信息','删除失败，失败原因【'+Redata+'】','error');
-				}
+				$.messager.alert('提示信息','删除成功','info');
+	        	$("#dg").datagrid("reload");
             }
     	})
     }else{

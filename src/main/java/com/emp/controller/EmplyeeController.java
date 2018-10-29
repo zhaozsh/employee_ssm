@@ -1,7 +1,9 @@
 package com.emp.controller;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.emp.entity.Employee;
 import com.emp.service.EmployeeService;
 
@@ -22,9 +25,26 @@ public class EmplyeeController {
 	EmployeeService employeeService;
 	
 	@RequestMapping("/search")
-	public List<Employee> searchEmp() {
-		List<Employee> list = employeeService.getEmployees();
-        return list;
+	public String searchEmp(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String name = request.getParameter("name");
+		String sex = request.getParameter("sex");
+		String rows = request.getParameter("rows");//多少行
+		String page = request.getParameter("page");//页
+		int pageNum = (Integer.parseInt(page)-1)*Integer.parseInt(rows);
+		int from = pageNum > 1?pageNum:0;
+		int row = Integer.parseInt(rows);
+		map.put("name", name);
+		map.put("sex", sex);
+		map.put("from", from);
+		map.put("rows", row);
+		Integer total=0;
+		
+		total= employeeService.getTotal(map);
+		List<Employee> list = employeeService.getEmployees(map);
+		String jsonString = JSONArray.toJSONString(list);
+		String data = "{\"total\":"+total+",\"rows\":"+jsonString+"}";
+        return data;
 	}
 	
 	@RequestMapping("/addOrEdit")
@@ -72,7 +92,7 @@ public class EmplyeeController {
 	
 	@RequestMapping("/delete")
 	public String deleteEmp(HttpServletRequest request) {
-		String str = "unknown exception";
+		String str = "error";
 		String pid = request.getParameter("pid");
 		if( pid==null || pid.equals("")) {
 			str = "传入ID为空";
@@ -83,6 +103,5 @@ public class EmplyeeController {
 		}
 		return str;
 	}
-	
 	
 }

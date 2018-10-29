@@ -23,7 +23,7 @@
 	<div data-options="region:'south',border:false" style="height:39px;background:#A9FACD;padding:10px;">版权所有   https://github.com/zhaozsh</div>
 	<div data-options="region:'center'">
 		<table id="dg" title="Employee Information" class="easyui-datagrid" style="width:auto;  height: 675px" toolbar="#toolbar" pagination="true" pageSize="20" fitColumns="true" 
-			data-options="region:'center',striped:true,rownumbers:true,selectOnCheck:false,checkOnSelect:false,singleSelect:true,url:'emp/search',method:'get'">
+			data-options="region:'center',striped:true,pagination:true,rownumbers:true,selectOnCheck:false,checkOnSelect:false,singleSelect:true,url:'emp/search',method:'post'">
 			<thead>
 				<tr>
 					<th data-options="field:'ck',checkbox:true"></th>
@@ -39,6 +39,13 @@
 			</thead>
 		</table>
 		<div id="toolbar">
+			<label>姓名：</label><input id="EmpName" class="easyui-textbox" style="width:90px;height:22px">
+			<label>性别：</label>
+			<select id="EmpSex" class="easyui-combobox" style="width:80px;height:22px" data-options="panelHeight:'auto',editable:false">
+                <option value="">请选择</option>
+                <option value="1">男</option>
+                <option value="0">女</option>
+            </select>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="SearchEmployee()">查询</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addEmployee()">新增</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editEmployee()">修改</a>

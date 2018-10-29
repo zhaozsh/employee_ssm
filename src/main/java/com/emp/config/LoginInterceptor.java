@@ -15,6 +15,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	        response.sendRedirect("/index.html");  
 	        return false;  
 		}
+		// 只有返回true才会继续向下执行，返回false取消当前请求
         return true;
 	}  
 }
